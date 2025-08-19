@@ -1,5 +1,238 @@
 # md-aizan-project
-This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (single-file) - paste entire content here --><!doctype html>
+This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (single-file) - paste entire content here --><!doctype html><!doctype html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Criminal Database Demo Portal (White Theme) | By MD AIZAN</title>
+  <meta name="description" content="Advanced criminal records demo portal with white background, black text, police login (OTP simulation), court-verified entry, searchable records, and audit log. Created by MD AIZAN." />
+  <meta name="keywords" content="Criminal Database Demo, Court Verified, Police Portal, OTP Login, Audit Log, MD AIZAN, White Theme" />
+  <meta name="author" content="MD AIZAN" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- White Theme CSS -->
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#f3f4f6;
+      --muted:#4b5563;
+      --text:#111827;
+      --accent:#3b82f6;
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --ring:#3b82f6;
+    }
+    *{box-sizing:border-box} 
+    html,body{height:100%} 
+    body{
+      margin:0; 
+      font:500 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; 
+      background:var(--bg); 
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none} 
+    header{
+      position:sticky; 
+      top:0; 
+      z-index:20; 
+      background:rgba(255,255,255,.95); 
+      backdrop-filter: blur(8px); 
+      border-bottom:1px solid rgba(75,85,99,.2)
+    }
+    .container{width:min(1100px,92vw); margin-inline:auto;} 
+    .bar{display:flex; gap:16px; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:12px} 
+    .badge{width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#8b5cf6); display:grid; place-items:center; font-weight:800; color:#ffffff}
+    nav{display:flex; gap:10px; flex-wrap:wrap} 
+    nav button{background:transparent; border:1px solid rgba(75,85,99,.3); color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer} 
+    nav button.active{border-color:var(--ring); box-shadow:0 0 0 3px rgba(59,130,246,.3)}
+    main{padding:24px 0 80px} 
+    .grid{display:grid; gap:16px} 
+    .card{background:var(--card); border:1px solid rgba(75,85,99,.2); border-radius:18px; padding:18px; box-shadow:0 10px 35px rgba(0,0,0,.1)}
+    .two{grid-template-columns:1.2fr .8fr}
+    .controls{display:flex; gap:12px; flex-wrap:wrap} 
+    input, select{background:#ffffff; color:var(--text); border:1px solid rgba(75,85,99,.3); padding:10px 12px; border-radius:10px; outline:none} 
+    input:focus, select:focus{border-color:var(--ring); box-shadow:0 0 0 3px rgba(59,130,246,.3)} 
+    label{font-size:.9rem; color:var(--muted)} 
+    .btn{background:var(--accent); color:white; border:0; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer} 
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(75,85,99,.35)} 
+    .btn.ok{background:var(--ok); color:white} 
+    .btn.warn{background:var(--warn); color:black} 
+    .btn.danger{background:var(--danger); color:white} 
+    .flex{display:flex; gap:12px; align-items:center} 
+    .spacer{flex:1}
+    table{width:100%; border-collapse:collapse} 
+    th,td{padding:10px 8px; border-bottom:1px solid rgba(75,85,99,.2); text-align:left} 
+    th{color:var(--muted); font-weight:700} 
+    .pill{display:inline-block; padding:4px 8px; border-radius:999px; font-size:.8rem} 
+    .pill.ok{background:rgba(16,185,129,.15); color:#10b981} 
+    .pill.warn{background:rgba(245,158,11,.15); color:#f59e0b} 
+    .pill.danger{background:rgba(239,68,68,.15); color:#ef4444}
+    footer{border-top:1px solid rgba(75,85,99,.2); background:rgba(255,255,255,.95); backdrop-filter: blur(8px); padding:18px 0;} 
+    .foot{display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between} 
+    .small{font-size:.9rem; color:var(--muted)}
+    .notice{background:rgba(59,130,246,.12); border:1px dashed var(--ring); padding:10px 12px; border-radius:10px;} 
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header role="banner" aria-label="Top Navigation">
+    <div class="container bar">
+      <div class="brand" aria-label="Site identity">
+        <div class="badge" aria-hidden="true">MD</div>
+        <div>
+          <div style="font-weight:800; font-size:1.05rem">Criminal Database Demo Portal</div>
+          <div class="small">Created by <strong>MD AIZAN</strong> • Demo for presentation only</div>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <button class="active" data-route="home">Home</button>
+        <button data-route="records">Records</button>
+        <button data-route="admin">Admin</button>
+        <button data-route="about">About</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" id="app" role="main">
+    <!-- Home Section -->
+    <section id="route-home" class="grid two">
+      <div class="card" aria-labelledby="welcomeTitle">
+        <h1 id="welcomeTitle" style="margin:0 0 8px">Welcome to the White Theme Demo</h1>
+        <p class="small">This educational project demonstrates a secure-looking criminal records workflow. <strong>No real data is stored.</strong></p>
+        <div class="notice" role="note" aria-label="Legal disclaimer"><strong>Legal Disclaimer:</strong> A person’s details appear here only after a <em>court-verified conviction</em>. This is a demo prototype and must not be used for real identity or FIR management.</div>
+        <div style="height:10px"></div>
+        <div class="controls">
+          <input id="globalSearch" type="search" placeholder="Search records by name, case ID, crime…" aria-label="Search records" />
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="">All Status</option>
+            <option value="in_jail">In Jail</option>
+            <option value="on_bail">On Bail</option>
+            <option value="absconding">Absconding</option>
+          </select>
+          <button class="btn ghost" id="goRecords">Open Records</button>
+        </div>
+      </div>
+      <div class="card" aria-labelledby="loginTitle">
+        <h2 id="loginTitle" style="margin:0 0 8px">Police Login (Demo)</h2>
+        <p class="small">Use mobile number + OTP simulation. Fingerprint/Face UI are simulated for presentation.</p>
+        <form id="loginForm" autocomplete="off">
+          <label for="mobile">Registered Mobile Number</label>
+          <input id="mobile" inputmode="numeric" pattern="[0-9]{10,}" placeholder="Enter mobile number" required />
+          <div class="flex">
+            <button type="button" class="btn" id="sendOtpBtn">Send OTP</button>
+            <div id="otpSent" class="small hidden" aria-live="polite"></div>
+          </div>
+          <div id="otpArea" class="hidden">
+            <label for="otp">Enter OTP</label>
+            <input id="otp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" />
+            <div class="flex">
+              <button type="button" class="btn ok" id="verifyOtpBtn">Verify OTP</button>
+              <button type="button" class="btn ghost" id="biometricBtn">Use Fingerprint / Face</button>
+              <div id="bioMsg" class="small"></div>
+            </div>
+          </div>
+          <div id="loginState" class="small" style="margin-top:8px"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Records Section -->
+    <section id="route-records" class="grid hidden">
+      <div class="card">
+        <div class="flex">
+          <h2 style="margin:0">Criminal Records (Demo)</h2>
+          <div class="spacer"></div>
+          <input id="recordsSearch" type="search" placeholder="Search records…" aria-label="Search records" />
+        </div>
+        <table aria-describedby="recordsHelp">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Name</th>
+              <th>Crime</th>
+              <th>Court Verified</th>
+              <th>Status</th>
+              <th>Added By</th>
+              <th>Added On</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+        <div id="recordsHelp" class="small">Only court-verified convictions are eligible to be listed in this demo.</div>
+      </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="route-admin" class="grid two hidden">
+      <div class="card">
+        <h2 style="margin-top:0">Add New Record (Admin)</h2>
+        <form id="addForm" autocomplete="off">
+          <label for="caseId">Case ID *</label>
+          <input id="caseId" required placeholder="e.g., CR-2025-001" />
+          <label for="fullName">Full Name *</label>
+          <input id="fullName" required placeholder="Person’s full name" />
+          <label for="crime">Crime *</label>
+          <input id="crime" required placeholder="e.g., Theft" />
+          <label for="status">Status *</label>
+          <select id="status" required>
+            <option value="">Select…</option>
+            <option value="in_jail">In Jail</option>
+            <option value="on_bail">On Bail</option>
+            <option value="absconding">Absconding</option>
+          </select>
+          <div class="notice">
+            <label class="flex" for="courtVerified">
+              <input id="courtVerified" type="checkbox" />
+              <span><strong>Confirm court-verified conviction</strong> (required to register).</span>
+            </label>
+          </div>
+          <div class="flex">
+            <button type="submit" class="btn ok">Add Record</button>
+            <button type="reset" class="btn ghost">Reset</button>
+            <div id="formMsg" class="small"></div>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Audit Log</h3>
+        <div id="auditLog" class="small" style="max-height:300px; overflow:auto"></div>
+        <div class="flex" style="margin-top:8px">
+          <button class="btn warn" id="exportBtn">Export JSON</button>
+          <button class="btn danger" id="wipeBtn">Wipe Demo Data</button>
+          <div class="spacer"></div>
+          <span class="small">Logged in as: <span id="loggedUser">Guest</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="route-about" class="grid hidden">
+      <div class="card">
+        <h2 style="margin:0 0 8px">About this Demo</h2>
+        <p>This project is an educational prototype demonstrating law enforcement portal flows. It is <strong>not</strong> connected to any government database and must not be used for real records.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container foot">
+      <div class="small">© <span id="year"></span> Criminal Database Demo • Created by <strong>MD AIZAN</strong>. All names/data shown here are fictional.</div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const $=(s)=>document.querySelector(s),$$=(s)=>document.querySelectorAll(s);
+    const store={key:'demo_crdb_white_v1',read(){try{return JSON.parse(localStorage.getItem(this.key))||{users:[],records:[],audit:[]};}catch(e){return {users:[],records:[],audit:[]};}},write(d){localStorage.setItem(this.key,JSON.stringify(d));},wipe(){localStorage.removeItem(this.key);}};
+    const nowStr=()=>new Date().toLocaleString();
+    function audit(msg){const d=store.read();d.audit.unshift(`[${nowStr()}] ${msg}`);store.write(d);renderAudit();}
+    function ensureSeed(){const d=store.read();if(!d.users.length){d.users.push({mobile:'9999999999',name:'Demo Officer',role:'police'});store.write(d);}if(!d.records.length){d.records.push({caseId:'CR-2025-000',name:'Sample Person',crime:'Theft (demo)',courtVerified:true,status:'in_jail',addedBy:'System',addedOn:new Date().toISOString()});store.write(d);}}
+    function showRoute(id){$$('nav button').forEach(b=>b.classList.remove('active'));$$('section[id^="route-"]').forEach(s=>s.classList.add
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
 <head>
   <meta charset="utf-8" />
@@ -353,8 +586,4 @@ This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (s
   $('#recordsSearch').addEventListener('input', renderRecords);
   $('#globalSearch').addEventListener('input', renderRecords);
   $('#statusFilter').addEventListener('change', ()=>{ renderRecords(); showRoute('records'); });
-  $('#addForm').addEventListener('submit', (e)=>{e.preventDefault();if(!session.logged){$('#formMsg').textContent='Login required (Police only).';return;}if(!$('#courtVerified').checked){$('#formMsg').textContent='Court-verified checkbox is required.';return;}const rec={caseId:$('#caseId').value.trim(),name:$('#fullName').value.trim(),crime:$('#crime').value.trim(),status:$('#status').value,courtVerified:true,addedBy:session.officer,addedOn:new Date().toISOString()};if(!rec.caseId||!rec.name||!rec.crime||!rec.status){$('#formMsg').textContent='All fields are required.';return;}const data=store.read();data.records.unshift(rec);store.write(data);audit(`Record added by ${session.officer}: ${rec.caseId} / ${rec.name}`);$('#addForm').reset();$('#courtVerified').checked=false;$('#formMsg').textContent='Record added (demo).';renderRecords();});
-  function renderAudit(){const data=store.read();$('#auditLog').innerHTML=data.audit.map(a=>`<div>• ${a}</div>`).join('');}
-  $('#exportBtn').addEventListener('click', ()=>{const data=store.read();const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='demo_criminal_db_export.json';a.click();URL.revokeObjectURL(url);});
-  $('#wipeBtn').addEventListener('click', ()=>{if(confirm('This will clear demo data from this browser. Continue?')){store.wipe(); ensureSeed(); renderRecords(); renderAudit();}});
-  (function init(){ensureSeed();document.getElementById('year').textContent=new Date().getFullYear();routeFromHash();window.addEventListener('hashchange', routeFromHash);rende
+  $('#addForm').addEventListener('submit', (e)=>{e.preventDefault();if(!session.logged){$('#formMsg').textContent='Login required (Police only).';return;}if(!$('#courtVerified').checked){$('#formMsg').textContent='Court-verified checkbox is required.';return;}const rec={caseId:$('#caseId').value.trim(),name:$('#fullName').value.trim(),crime:$('#crime').value.trim(),status:$('#status').value,courtVerified:true,addedBy:session.officer,addedOn:new Date().toISOString()};if(!rec.caseId||!rec.name||!rec.crime||!rec.status){$('#formMsg').textContent='All fields are required.';return;}const data=store.read();data.records.unshift(rec);store.write(data);audit(`Record added by ${session.officer}: ${rec.caseId} / ${rec.name}`);$('#addForm').reset();$('#courtVerified').checked=false;$('#formMsg').textContent='Record adde
