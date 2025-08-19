@@ -1,5 +1,112 @@
 # md-aizan-project
-This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (single-file) - paste entire content here -->
+This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (single-file) - paste entire content here --><!doctype html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Criminal Database Demo Portal | By MD AIZAN</title>
+  <meta name="description" content="Advanced criminal records demo portal with police login (OTP simulation), court-verified entry, searchable records, and audit log. Created by MD AIZAN." />
+  <meta name="keywords" content="Criminal Database Demo, Court Verified, Police Portal, OTP Login, Audit Log, MD AIZAN" />
+  <meta name="author" content="MD AIZAN" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="CANONICAL_URL_HERE" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Criminal Database Demo Portal | By MD AIZAN" />
+  <meta property="og:description" content="Police login (OTP simulation), court-verified records, searchable table, audit log. Demo by MD AIZAN." />
+  <meta property="og:url" content="CANONICAL_URL_HERE" />
+  <meta property="og:image" content="CANONICAL_URL_HERE/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Criminal Database Demo Portal | By MD AIZAN" />
+  <meta name="twitter:description" content="Advanced criminal database demo. Created by MD AIZAN." />
+  <meta name="twitter:image" content="CANONICAL_URL_HERE/og-image.jpg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Criminal Database Demo Portal",
+    "url": "CANONICAL_URL_HERE",
+    "creator": {"@type": "Person", "name": "MD AIZAN"},
+    "description": "Advanced criminal records demo with OTP login simulation and court-verified entries. Created by MD AIZAN.",
+    "inLanguage": "en",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "CANONICAL_URL_HERE/?q={search_term}",
+      "query-input": "required name=search_term"
+    }
+  }
+  </script>
+
+  <!-- White Theme CSS -->
+  <style>
+    :root{
+      --bg:#ffffff;        /* overall background white */
+      --card:#f3f4f6;      /* card background light gray */
+      --muted:#4b5563;     /* muted text */
+      --text:#111827;      /* main text black/dark */
+      --accent:#3b82f6;    /* buttons/links accent */
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --ring:#3b82f6;
+    }
+    *{box-sizing:border-box} 
+    html,body{height:100%} 
+    body{
+      margin:0; 
+      font:500 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; 
+      background:var(--bg); 
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none} 
+    header{
+      position:sticky; 
+      top:0; 
+      z-index:20; 
+      background:rgba(255,255,255,.95); 
+      backdrop-filter: blur(8px); 
+      border-bottom:1px solid rgba(75,85,99,.2)
+    }
+    .container{width:min(1100px,92vw); margin-inline:auto;} 
+    .bar{display:flex; gap:16px; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:12px} 
+    .badge{width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#8b5cf6); display:grid; place-items:center; font-weight:800; color:#ffffff}
+    nav{display:flex; gap:10px; flex-wrap:wrap} 
+    nav button{background:transparent; border:1px solid rgba(75,85,99,.3); color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer} 
+    nav button.active{border-color:var(--ring); box-shadow:0 0 0 3px rgba(59,130,246,.3)}
+    main{padding:24px 0 80px} 
+    .grid{display:grid; gap:16px} 
+    .card{background:var(--card); border:1px solid rgba(75,85,99,.2); border-radius:18px; padding:18px; box-shadow:0 10px 35px rgba(0,0,0,.1)}
+    .two{grid-template-columns:1.2fr .8fr}
+    .controls{display:flex; gap:12px; flex-wrap:wrap} 
+    input, select{background:#ffffff; color:var(--text); border:1px solid rgba(75,85,99,.3); padding:10px 12px; border-radius:10px; outline:none} 
+    input:focus, select:focus{border-color:var(--ring); box-shadow:0 0 0 3px rgba(59,130,246,.3)} 
+    label{font-size:.9rem; color:var(--muted)} 
+    .btn{background:var(--accent); color:white; border:0; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer} 
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(75,85,99,.35)} 
+    .btn.ok{background:var(--ok); color:white} 
+    .btn.warn{background:var(--warn); color:black} 
+    .btn.danger{background:var(--danger); color:white} 
+    .flex{display:flex; gap:12px; align-items:center} 
+    .spacer{flex:1}
+    table{width:100%; border-collapse:collapse} 
+    th,td{padding:10px 8px; border-bottom:1px solid rgba(75,85,99,.2); text-align:left} 
+    th{color:var(--muted); font-weight:700} 
+    .pill{display:inline-block; padding:4px 8px; border-radius:999px; font-size:.8rem} 
+    .pill.ok{background:rgba(16,185,129,.15); color:#10b981} 
+    .pill.warn{background:rgba(245,158,11,.15); color:#f59e0b} 
+    .pill.danger{background:rgba(239,68,68,.15); color:#ef4444}
+    footer{border-top:1px solid rgba(75,85,99,.2); background:rgba(255,255,255,.95); backdrop-filter: blur(8px); padding:18px 0;} 
+    .foot{display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between} 
+    .small{font-size:.9rem; color:var(--muted)}
+    .notice{background:rgba(59,130,246,.12); border:1px dashed var(--ring); padding:10px 12px; border-radius:10px;} 
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+<!-- Your existing body content (header, main, footer) remains unchanged -->
+<!-- Paste the full HTML body content from your original file here -->
+</body>
+</html>
 <!doctype html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
 <head>
@@ -250,7 +357,4 @@ This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (s
   function renderAudit(){const data=store.read();$('#auditLog').innerHTML=data.audit.map(a=>`<div>• ${a}</div>`).join('');}
   $('#exportBtn').addEventListener('click', ()=>{const data=store.read();const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='demo_criminal_db_export.json';a.click();URL.revokeObjectURL(url);});
   $('#wipeBtn').addEventListener('click', ()=>{if(confirm('This will clear demo data from this browser. Continue?')){store.wipe(); ensureSeed(); renderRecords(); renderAudit();}});
-  (function init(){ensureSeed();document.getElementById('year').textContent=new Date().getFullYear();routeFromHash();window.addEventListener('hashchange', routeFromHash);renderRecords();})();
-  </script>
-</body>
-</html>
+  (function init(){ensureSeed();document.getElementById('year').textContent=new Date().getFullYear();routeFromHash();window.addEventListener('hashchange', routeFromHash);rende
