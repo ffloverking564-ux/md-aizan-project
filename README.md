@@ -1,4 +1,6 @@
-# md-aizan-project
+# md-aizan-project<script>
+  document.body.innerHTML = '';
+</script>
 This is MD Aizan's first project website.<!-- Advanced Criminal Database Demo (single-file) - paste entire content here --><!doctype html><!doctype html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
 <head>
