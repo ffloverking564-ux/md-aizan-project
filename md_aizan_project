@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criminal Database Demo | MD AIZAN</title>
+<meta name="description" content="Police-only criminal database demo with OTP, biometric UI, photo match, admin and audit log. Demo by MD AIZAN.">
+<style>
+body {background:#fff;color:#000;font-family:sans-serif;margin:0;padding:0;}
+header, footer {background:#eee;padding:10px;}
+.container{width:min(1000px,95vw);margin:auto;padding:10px;}
+nav button{margin-right:5px;padding:6px 12px;}
+.hidden{display:none;}
+.card{border:1px solid #ccc;border-radius:8px;padding:12px;margin:10px 0;overflow:auto;}
+input, select, button{margin:4px 0;padding:6px;border-radius:6px;border:1px solid #aaa;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{border:1px solid #ccc;padding:6px;text-align:left;}
+.pill{padding:2px 6px;border-radius:12px;font-size:0.8rem;}
+.ok{background:#0f0;color:#000;}
+.warn{background:#ff0;color:#000;}
+.danger{background:#f00;color:#fff;}
+.flex{display:flex;align-items:center;gap:6px;}
+.spacer{flex:1;}
+.notice{background:#ddf;padding:6px;border-radius:6px;margin:6px 0;}
+</style>
+</head>
+<body>
+<header>
+<h1>Criminal Database Demo</h1>
+<nav>
+<button data-route="home">Home</button>
+<button data-route="records">Records</button>
+<button data-route="admin">Admin</button>
+<button data-route="about">About</button>
+</nav>
+</header>
+
+<main class="container">
+<section id="route-home" class="card">
+<h2>Welcome</h2>
+<p>This is a demo Criminal Database project by <strong>MD AIZAN</strong>. Only Police can login.</p>
+
+<div class="card">
+<h3>Police Login</h3>
+<form id="loginForm">
+<label>Mobile Number:</label>
+<input type="text" id="mobile" placeholder="Enter mobile number" required>
+<div class="flex">
+<button type="button" id="sendOtpBtn">Send OTP</button>
+<div id="otpSent" class="hidden"></div>
+</div>
+
+<div id="otpArea" class="hidden">
+<label>Enter OTP:</label>
+<input type="text" id="otp" placeholder="6-digit OTP">
+<div class="flex">
+<button type="button" id="verifyOtpBtn">Verify OTP</button>
+<button type="button" id="biometricBtn">Use Fingerprint / Face</button>
+<div id="bioMsg"></div>
+</div>
+</div>
+<div id="loginState"></div>
+</form>
+</div>
+</section>
+
+<section id="route-records" class="card hidden">
+<h2>Criminal Records</h2>
+<input id="recordsSearch" placeholder="Search name, case, crime…">
+<select id="statusFilter">
+<option value="">All Status</option>
+<option value="in_jail">In Jail</option>
+<option value="on_bail">On Bail</option>
+<option value="absconding">Absconding</option>
+</select>
+<table>
+<thead>
+<tr><th>Case ID</th><th>Name</th><th>Crime</th><th>Court Verified</th><th>Status</th><th>Added By</th><th>Photo</th></tr>
+</thead>
+<tbody id="recordsBody"></tbody>
+</table>
+</section>
+
+<section id="route-admin" class="card hidden">
+<h2>Admin Panel</h2>
+<form id="addForm">
+<label>Case ID:</label>
+<input id="caseId" required>
+<label>Full Name:</label>
+<input id="fullName" required>
+<label>Crime:</label>
+<input id="crime" required>
+<label>Status:</label>
+<select id="status" required>
+<option value="">Select…</option>
+<option value="in_jail">In Jail</option>
+<option value="on_bail">On Bail</option>
+<option value="absconding">Absconding</option>
+</select>
+<label>Photo (demo match):</label>
+<input type="file" id="photoInput">
+<div class="notice">
+<label><input type="checkbox" id="courtVerified"> Court-verified</label>
+</div>
+<button type="submit">Add Record</button>
+<div id="formMsg"></div>
+</form>
+<h3>Audit Log</h3>
+<div id="auditLog" style="max-height:200px;overflow:auto;"></div>
+<button id="exportBtn">Export JSON</button>
+<button id="wipeBtn">Wipe Demo Data</button>
+</section>
+
+<section id="route-about" class="card hidden">
+<h2>About</h2>
+<p>This demo Criminal Database project is created by <strong>MD AIZAN</strong> for demonstration purpose only.</p>
+</section>
+</main>
+
+<footer>
+<p>© <span id="year"></span> MD AIZAN Demo</p>
+</footer>
+
+<script>
+// Simple selector
+const $ = s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
+// Storage
+const store = {
+key:'crdb_demo',
+read(){return JSON.parse(localStorage.getItem(this.key)||'{"users":[{"mobile":"9999999999","name":"Demo Officer"}],"records":[],"audit":[]}');},
+write(d){localStorage.setItem(this.key,JSON.stringify(d));},
+wipe(){localStorage.removeItem(this.key);}
+};
+
+// Session
+let session={logged:false,officer:'Guest'},currentOtp=null;
+
+// Routing
+function showRoute(id){
+$$('section').forEach(s=>s.classList.add('hidden'));
+$(`#route-${id}`).classList.remove('hidden');
+}
+$$('nav button').forEach(btn=>btn.addEventListener('click',()=>showRoute(btn.dataset.route)));
+showRoute('home');
+
+// OTP demo
+$('#sendOtpBtn').addEventListener('click',()=>{
+let mobile=$('#mobile').value.trim();
+if(!/^[0-9]{10,}$/.test(mobile)){ $('#loginState').textContent='Enter valid mobile.'; return;}
+currentOtp=Math.floor(100000+Math.random()*900000);
+$('#otpSent').textContent=`OTP sent (demo): ${currentOtp}`;
+$('#otpSent').classList.remove('hidden');
+$('#otpArea').classList.remove('hidden');
+$('#loginState').textContent='';
+});
+
+// Verify OTP
+$('#verifyOtpBtn').addEventListener('click',()=>{
+if($('#otp').value.trim()==currentOtp){
+session.logged=true;session.officer=$('#mobile').value;
+$('#loginState').textContent='Login success.';
+audit(`Login by ${session.officer}`);
+}else{
+$('#loginState').textContent='Invalid OTP.';
+audit('Failed OTP attempt.');
+}
+});
+
+// Biometric demo
+$('#biometricBtn').addEventListener('click',()=>{
+$('#bioMsg').textContent='Verifying…';
+setTimeout(()=>{$('#bioMsg').textContent='Fingerprint/Face verified (demo).';audit('Biometric verified (demo)');},900);
+});
+
+// Render records
+function renderRecords(){
+const d=store.read();
+let q=($('#recordsSearch').value||'').toLowerCase();
+let f=$('#statusFilter').value;
+let rows=d.records.filter(r=>{
+let match=(r.caseId+r.name+r.crime).toLowerCase().includes(q);
+let okStatus=f? r.status===f:true;
+return match&&okStatus;
+}).map(r=>{
+let court=r.courtVerified?'<span class="pill ok">Yes</span>':'<span class="pill danger">No</span>';
+let statusClass=r.status==='in_jail'?'ok':r.status==='on_bail'?'warn':'danger';
+return `<tr><td>${r.caseId}</td><td>${r.name}</td><td>${r.crime}</td><td>${court}</td><td><span class="pill ${statusClass}">${r.status}</span></td><td>${r.addedBy}</td><td>${r.photo||''}</td></tr>`;
+}).join('');
+$('#recordsBody').innerHTML=rows||'<tr><td colspan="7">No records</td></tr>';
+}
+$('#recordsSearch').addEventListener('input',renderRecords);
+$('#statusFilter').addEventListener('change',renderRecords);
+
+// Add record
+$('#addForm').addEventListener('submit',e=>{
+e.preventDefault();
+if(!session.logged){$('#formMsg').textContent='Login required.';return;}
+if(!$('#courtVerified').checked){$('#formMsg').textContent='Court-verified required.';return;}
+let reader=new FileReader();
+reader.onload=()=>{
+let rec={caseId:$('#caseId').value,name:$('#fullName').value,crime:$('#crime').value,status:$('#status').value,addedBy:session.officer,courtVerified:true,photo:reader.result};
+let d=store.read();d.records.unshift(rec);store.write(d);audit(`Record added by ${session.officer}: ${rec.caseId}`);$('#formMsg').textContent='Record added.';renderRecords();$('#addForm').reset();}
+if($('#photoInput').files[0]) reader.readAsDataURL($('#photoInput').files[0]); else reader.onload();
+});
+
+// Audit
+function audit(msg){let d=store.read();d.audit.unshift(`[${new Date().toLocaleString()}] ${msg}`);store.write(d);renderAudit();}
+function renderAudit(){$('#auditLog').innerHTML=store.read().audit.map(a=>`<div>• ${a}</div>`).join('');}
+renderAudit();
+
+// Export / Wipe
+$('#exportBtn').addEventListener('click',()=>{
+const blob=new Blob([JSON.stringify(store.read(),null,2)],{type:'application/json'});
+const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='export.json';a.click();
+});
+$('#wipeBtn').addEventListener('click',()=>{
+if(confirm('Clear all demo data?')){store.wipe();renderRecords();renderAudit();}
+});
+
+// Year
+document.getElementById('year').textContent=new Date().getFullYear();
+
+</script>
+</body>
+</html>
